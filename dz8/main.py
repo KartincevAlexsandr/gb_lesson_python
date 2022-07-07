@@ -16,7 +16,12 @@ myvar.set('')
 elements = []
 
 def openEmplyees(tablename):
-    data = bdController.loadTable(tablename)
+    if   'join' in tablename:
+        data = bdController.loadTableJoin(tablename)
+    else:
+        data = bdController.loadTable(tablename)
+
+    print(data)
     clearWindow()
     window.geometry("1200x400")
     elements.append(Button(
@@ -143,6 +148,14 @@ def startMenu(event=None):
         command=lambda: openEmplyees('emplyees')
     ))
     elements.append(Button(
+        text="Сотрудник/Подразделение",
+        bg="#ccc",
+        fg="#3d3d42",
+        activebackground="#eff5c9",
+        activeforeground='#6e6f73',
+        command=lambda: openEmplyees('join_emplyees_sudbivision')
+    ))
+    elements.append(Button(
         text="Подразделения",
         bg="#ccc",
         fg="#3d3d42",
@@ -150,14 +163,16 @@ def startMenu(event=None):
         activeforeground='#6e6f73',
         command=lambda: openEmplyees('sudbivision')
     ))
-    elements.append(Button(
-        text="График",
-        bg="#ccc",
-        fg="#3d3d42",
-        activebackground="#eff5c9",
-        activeforeground='#6e6f73',
-        command=lambda: openEmplyees('schedule')
-    ))
+    # elements.append(Button(
+    #     text="График",
+    #     bg="#ccc",
+    #     fg="#3d3d42",
+    #     activebackground="#eff5c9",
+    #     activeforeground='#6e6f73',
+    #     command=lambda: openEmplyees('schedule')
+    # ))
+
+
 
     for i in range(len(elements)):
         elements[i].grid(row=i,column=2,columnspan=5)

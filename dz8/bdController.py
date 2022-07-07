@@ -10,6 +10,29 @@ def loadTable(tableName):
     else:
         return []
 
+
+def loadTableJoin(tableName):
+    print(1)
+    with open(f"./bd/emplyees.json", 'r', encoding='utf-8') as file:
+        data_emplyees = json.load(file)
+    with open(f"./bd/sudbivision.json", 'r', encoding='utf-8') as file:
+        data_sudbivision = json.load(file)
+
+
+    for item in data_emplyees:
+        city = list(filter(lambda x: x["id"] == item["location"],data_sudbivision))
+        if len(city) == 1:
+            item["Название подразделения"] = city[0]["Название"]
+            item["Город"] = city[0]["Город"]
+            item["Улица"] = city[0]["Улица"]
+            item["Дом"] = city[0]["Дом"]
+        else:
+            item["Название подразделения"] = ''
+            item["Город"] = ''
+            item["Улица"] = ''
+            item["Дом"] = ''
+    return data_emplyees
+
 def transactionTable(tableName,data):
     with open(f"./bd/{tableName}.json", 'w', encoding='utf-8') as file:
         file.write(json.dumps(data))
